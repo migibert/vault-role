@@ -4,9 +4,6 @@ galaxy_info:
   description: Hashicorp vault installation
   license: MIT
   min_ansible_version: 1.5
-  - name: Ubuntu
-    versions:
-    - trusty
   categories:
     - system
 dependencies: []

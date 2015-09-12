@@ -1,2 +1,41 @@
 ---
-# tasks file for vault
+- name: Create vault user
+  user:
+    name: "{{vault_user}}"
+    password: "{{vault_user_password}}"
+
+- name: Create vault directory
+  file:
+    path: "{{vault_dir}}"
+    state: directory
+    owner: "{{vault_user}}"
+    group: "{{vault_user}}"
+
+- name: Check vault version
+  shell: "vault --version 2>&1 | grep {{vault_version}}"
+  failed_when: false
+  changed_when: false
+  register: vault_versions_match
+
+- include: download.yml
+  when: vault_versions_match.rc != 0
+
+- name: Unarchive vault archive
+  unarchive:
+    src: /tmp/vault-{{vault_version}}.zip
+    dest: "{{vault_dir}}"
+  when: vault_versions_match.rc != 0
+
+- name: Make vault_user vault directory owner
+  file:
+    path: "{{vault_dir}}"
+    state: directory
+    owner: "{{vault_user}}"
+    group: "{{vault_user}}"
+    recurse: yes
+
+- name: Adding vault command to user path
+  file: 
+    src: "{{vault_dir}}/vault"
+    dest: /usr/bin/vault
+    state: link
