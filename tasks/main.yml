@@ -39,3 +39,27 @@
     src: "{{vault_dir}}/vault"
     dest: /usr/bin/vault
     state: link
+
+- name: Create vault log directory
+  file:
+    path: "{{vault_server_log_dir}}"
+    state: directory
+    owner: "{{vault_user}}"
+    group: "{{vault_user}}"
+  when: vault_server
+  register: vault_log_task
+
+- name: Create vault service script
+  template:
+    src: vault-server.j2
+    dest: /etc/init.d/vault-server
+    mode: a+x
+    owner: root
+  when: vault_server
+  register: vault_service_task
+
+- name: Start vault server
+  service:
+    name: vault-server
+    state: restarted
+  when: vault_log_task|changed or vault_service_task|changed
