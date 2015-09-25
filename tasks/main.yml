@@ -1,4 +1,9 @@
 ---
+- name: Check prerequisites
+  fail:
+    msg: "You MUST provide a vault configuration through the variable vault_server_config_path"
+  when: vault_server_config_path is not defined and vault_server_mode != 'development'
+
 - name: Create vault user
   user:
     name: "{{vault_user}}"
@@ -20,10 +25,16 @@
 - include: download.yml
   when: vault_versions_match.rc != 0
 
+- name: Install unzip to unarchive vault
+  apt:
+    name: unzip
+    state: present
+
 - name: Unarchive vault archive
   unarchive:
     src: /tmp/vault-{{vault_version}}.zip
     dest: "{{vault_dir}}"
+    copy: no
   when: vault_versions_match.rc != 0
 
 - name: Make vault_user vault directory owner
@@ -63,3 +74,7 @@
     name: vault-server
     state: restarted
   when: vault_log_task|changed or vault_service_task|changed
+
+- wait_for:
+    port: 8200
+    timeout: 1

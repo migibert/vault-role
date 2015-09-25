@@ -7,5 +7,4 @@ vault_user_password: $6$J9/cJI/s$a0bvktGj1hO1WMG.LDgLlfOFM3.dBSHBJA9d7euRiOvw4TU
 vault_server: True
 vault_server_mode: production
 vault_server_log_dir: /var/log/vault
-vault_server_config_path: /etc/vault
 vault_server_log_level: info
