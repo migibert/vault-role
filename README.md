@@ -11,7 +11,7 @@ No requirements needed to install this role.
 Role Variables
 --------------
 
-```yaml
+```
 vault_version: 0.2.0
 vault_dir: /opt/vault
 vault_user: vault
