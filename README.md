@@ -63,4 +63,4 @@ MIT
 Author Information
 ------------------
 
-Mikaël Gibert, Developer / Devops
+Mikael Gibert, Developer / Devops
