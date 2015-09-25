@@ -1,7 +1,7 @@
 Vault role
 =========
-
-[![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org) 
+[![Galaxy](http://img.shields.io/badge/ansible--galaxy-vault-blue.svg)](https://galaxy.ansible.com/list#/roles/5261)
+[![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)  
 
 Requirements
 ------------
