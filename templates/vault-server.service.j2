@@ -1,0 +1,15 @@
+[Unit]
+Description=Manage the vault server
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+Restart=on-failure
+{% if vault_server_mode == 'development' %}
+ExecStart=/usr/bin/vault server -dev
+{% else %}
+ExecStart=/usr/bin/vault server -config={{ vault_server_config_path }}
+{% endif %}
+
+[Install]
+WantedBy=multi-user.target

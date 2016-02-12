@@ -1,0 +1,32 @@
+- debug:
+    var: ansible_service_mgr
+
+- name: Create vault service script
+  template:
+    src: vault-server.j2
+    dest: /etc/init.d/vault-server
+    mode: a+x
+    owner: root
+  when: vault_server and ansible_service_mgr == "upstart"
+  register: vault_service_task_upstart
+
+- name: Create systemd vault service script
+  template:
+    src: vault-server.service.j2
+    dest: /etc/systemd/system/vault-server.service
+    mode: a+x
+    owner: root
+  when: vault_server and ansible_service_mgr == "systemd"
+  register: vault_service_task_systemd
+
+- name: Start vault server
+  service:
+    name: vault-server
+    state: restarted
+  when: ansible_service_mgr == "upstart" and (vault_log_task|changed or vault_service_task_upstart|changed)
+
+- name: Start vault server
+  service:
+    name: vault-server.service
+    state: restarted
+  when: ansible_service_mgr == "systemd" and (vault_log_task|changed or vault_service_task_systemd|changed)
