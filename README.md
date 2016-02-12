@@ -13,7 +13,7 @@ Role Variables
 --------------
 
 ```
-vault_version: 0.2.0
+vault_version: 0.5.0
 vault_dir: /opt/vault
 vault_user: vault
 vault_user_password: $6$J9/cJI/s$a0bvktGj1hO1WMG.LDgLlfOFM3.dBSHBJA9d7euRiOvw4TUGWF7Y2SgjqcET4OCjeOupVR9XFM9EqWYIPdFDG.
@@ -36,7 +36,7 @@ Install vault at a specific version
 
     - hosts: servers
       roles:
-         - { role: migibert.vault, vault_version: "0.2.0" }
+         - { role: migibert.vault, vault_version: "0.5.0" }
 
 
 Install vault server in development mode
